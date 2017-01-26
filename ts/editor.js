@@ -14,6 +14,11 @@ var AITown;
             this.stage.name = "Editor Stage";
             //Tell the renderer to render the stage
             this.renderer.render(this.stage);
+            requestAnimationFrame(this.MainLoop.bind(this));
+        };
+        Editor.prototype.MainLoop = function () {
+            this.renderer.render(this.stage);
+            requestAnimationFrame(this.MainLoop.bind(this));
         };
         Editor.prototype.ResourceLoader = function () {
             for (var i = 0; i < imageAssetData.length; ++i) {
@@ -24,6 +29,7 @@ var AITown;
         };
         Editor.prototype.Start = function () {
             console.log("Editor Started");
+            this.stageController = new AITown.StageController(this.stage);
         };
         return Editor;
     }());
