@@ -11,6 +11,7 @@ var AITown;
             this.mapId = null;
             this.row = 0;
             this.col = 0;
+            this.baseTileIndex = 0;
             this.offsetX = 0;
             this.offsetY = 0;
             this.up = null;
@@ -47,6 +48,7 @@ var AITown;
                 var texture = PIXI.Texture.fromFrame("tile" + tileIndex + ".png");
                 this.baseSprite.texture = texture;
             }
+            this.baseTileIndex = tileIndex;
             this.baseSprite.updateTransform();
         };
         Tile.prototype.UpdateTransform = function () {
@@ -57,18 +59,6 @@ var AITown;
             this.baseSprite.y = this.offsetY;
             this.baseSprite.scale.x = this.defaultScale;
             this.baseSprite.scale.y = this.defaultScale;
-            /*var graphic = new PIXI.Graphics();
-            graphic.beginFill(0x000000);
-            graphic.drawPolygon( [0,-(this.baseSprite.height*0.5*this.sizeCalcScaleY),
-                                (this.baseSprite.width*0.5*this.sizeCalcScaleX), 0,
-                                0, (this.baseSprite.height*0.5*this.sizeCalcScaleY),
-                                -(this.baseSprite.width*0.5*this.sizeCalcScaleX), 0
-                                ]);
-            graphic.endFill();
-            graphic.x = this.offsetX;
-            graphic.y = this.offsetY;
-            graphic.alpha = 0.5;
-            this.layerBackground.addChild(graphic);*/
             if (editor) {
                 this.baseSprite.interactive = true;
                 var points = [new PIXI.Point((this.baseSprite.width * 0.5 / this.defaultScale), (this.baseSprite.height * 0.5 / this.defaultScale) - (this.baseSprite.height * 0.5 * this.sizeCalcScaleY / this.defaultScale)),
@@ -77,10 +67,8 @@ var AITown;
                     new PIXI.Point((this.baseSprite.width * 0.5 / this.defaultScale) - (this.baseSprite.width * 0.5 * this.sizeCalcScaleX / this.defaultScale), (this.baseSprite.height * 0.5 / this.defaultScale))
                 ];
                 this.baseSprite.hitArea = new PIXI.Polygon(points);
-                this.baseSprite.addListener("mousedown", function (ev) {
-                    console.log(_this.mapId);
+                this.baseSprite.addListener("click", function (ev) {
                     _this.SetTile(_this.controller.selectedTile);
-                    ev.stopPropagation();
                 });
             }
         };

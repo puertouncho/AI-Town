@@ -9,6 +9,9 @@ var AITown;
             document.body.appendChild(this.renderer.view);
             //To change the background color
             this.renderer.backgroundColor = 0x061639;
+            this.renderer.view.addEventListener("contextmenu", function (e) {
+                e.preventDefault();
+            });
             // Stage
             this.stage = new PIXI.Container();
             this.stage.name = "Editor Stage";
@@ -30,6 +33,7 @@ var AITown;
         Editor.prototype.Start = function () {
             console.log("Editor Started");
             this.stageController = new AITown.StageController(this.stage);
+            this.uiController = new AITown.UIController(this.stage);
         };
         return Editor;
     }());

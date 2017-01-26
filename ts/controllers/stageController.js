@@ -6,10 +6,40 @@ var AITown;
             this.GRID_Y = 25;
             this.tilesMap = [];
             this.selectedTile = 1;
+            this.isPrimaryMouseDown = false;
+            this.isSecondaryMouseDown = false;
+            this.layerContainer = new PIXI.Container();
             this.layerBackground = new PIXI.Container();
-            stage.addChild(this.layerBackground);
+            this.layerContainer.addChild(this.layerBackground);
+            stage.addChild(this.layerContainer);
             this.SetUpBaseGrid();
+            this.SetUpScrollingFunctionality();
         }
+        StageController.prototype.SetUpScrollingFunctionality = function () {
+            var _this = this;
+            this.layerContainer.interactive = true;
+            this.layerContainer.addListener("rightdown", function (ev) {
+                _this.isSecondaryMouseDown = true;
+                _this.savedScrollPos = ev.data.global.clone();
+            });
+            this.layerContainer.addListener("mousemove", function (ev) {
+                if (_this.isSecondaryMouseDown) {
+                    var newPoint = ev.data.global;
+                    _this.layerContainer.x += newPoint.x - _this.savedScrollPos.x;
+                    _this.layerContainer.y += newPoint.y - _this.savedScrollPos.y;
+                    _this.savedScrollPos = ev.data.global.clone();
+                }
+            });
+            this.layerContainer.addListener("rightup", function (ev) {
+                _this.isSecondaryMouseDown = false;
+            });
+            this.layerContainer.addListener("mousedown", function (ev) {
+                _this.isPrimaryMouseDown = true;
+            });
+            this.layerContainer.addListener("mouseup", function (ev) {
+                _this.isPrimaryMouseDown = false;
+            });
+        };
         StageController.prototype.SetUpBaseGrid = function () {
             var iniX = 400;
             var iniY = 0;
