@@ -14,7 +14,26 @@ var AITown;
             stage.addChild(this.layerContainer);
             this.SetUpBaseGrid();
             this.SetUpScrollingFunctionality();
+            this.layerContainer.pivot.x = this.layerContainer.width * 0.5;
+            this.layerContainer.pivot.y = this.layerContainer.height * 0.5;
+            this.layerContainer.x += this.layerContainer.width * 0.5;
+            this.layerContainer.y += this.layerContainer.height * 0.5;
+            this.layerContainerInitialPos = new PIXI.Point(this.layerContainer.x, this.layerContainer.y);
         }
+        StageController.prototype.Zoom = function (delta) {
+            var scale = this.layerContainer.scale.x;
+            var lastscale = this.layerContainer.scale.x;
+            if (delta < 0) {
+                scale += 0.1 / scale;
+            }
+            else {
+                scale -= 0.1 / scale;
+            }
+            if (scale <= 0 || scale > 4) {
+                scale = lastscale;
+            }
+            this.layerContainer.scale.x = this.layerContainer.scale.y = scale;
+        };
         StageController.prototype.SetUpScrollingFunctionality = function () {
             var _this = this;
             this.layerContainer.interactive = true;
@@ -27,6 +46,10 @@ var AITown;
                     var newPoint = ev.data.global;
                     _this.layerContainer.x += newPoint.x - _this.savedScrollPos.x;
                     _this.layerContainer.y += newPoint.y - _this.savedScrollPos.y;
+                    _this.layerBackground.pivot.x += _this.layerContainerInitialPos.x - _this.layerContainer.x;
+                    _this.layerBackground.pivot.y += _this.layerContainerInitialPos.y - _this.layerContainer.y;
+                    _this.layerContainer.x += (_this.layerContainerInitialPos.x - _this.layerContainer.x);
+                    _this.layerContainer.y += (_this.layerContainerInitialPos.y - _this.layerContainer.y);
                     _this.savedScrollPos = ev.data.global.clone();
                 }
             });

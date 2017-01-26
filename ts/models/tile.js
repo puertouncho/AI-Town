@@ -11,7 +11,7 @@ var AITown;
             this.mapId = null;
             this.row = 0;
             this.col = 0;
-            this.baseTileIndex = 0;
+            this.baseTileIndex = null;
             this.offsetX = 0;
             this.offsetY = 0;
             this.up = null;
@@ -39,6 +39,9 @@ var AITown;
             configurable: true
         });
         Tile.prototype.SetTile = function (tileIndex) {
+            if (tileIndex === this.baseTileIndex) {
+                return;
+            }
             if (!this.baseSprite) {
                 this.baseSprite = PIXI.Sprite.fromFrame("tile" + tileIndex + ".png");
                 this.layerBackground.addChild(this.baseSprite);
@@ -67,8 +70,20 @@ var AITown;
                     new PIXI.Point((this.baseSprite.width * 0.5 / this.defaultScale) - (this.baseSprite.width * 0.5 * this.sizeCalcScaleX / this.defaultScale), (this.baseSprite.height * 0.5 / this.defaultScale))
                 ];
                 this.baseSprite.hitArea = new PIXI.Polygon(points);
-                this.baseSprite.addListener("click", function (ev) {
+                this.baseSprite.addListener("mousedown", function (ev) {
                     _this.SetTile(_this.controller.selectedTile);
+                });
+                this.baseSprite.addListener("mouseover", function (ev) {
+                    if (_this.controller.isPrimaryMouseDown) {
+                        _this.SetTile(_this.controller.selectedTile);
+                    }
+                    _this.baseSprite.y = _this.offsetY - 1;
+                });
+                this.baseSprite.addListener("mouseout", function (ev) {
+                    if (_this.controller.isPrimaryMouseDown) {
+                        _this.SetTile(_this.controller.selectedTile);
+                    }
+                    _this.baseSprite.y = _this.offsetY;
                 });
             }
         };

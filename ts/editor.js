@@ -12,6 +12,10 @@ var AITown;
             this.renderer.view.addEventListener("contextmenu", function (e) {
                 e.preventDefault();
             });
+            this.renderer.view.addEventListener("wheel", function (e) {
+                editor.stageController.Zoom(e.deltaY);
+                e.preventDefault();
+            });
             // Stage
             this.stage = new PIXI.Container();
             this.stage.name = "Editor Stage";
