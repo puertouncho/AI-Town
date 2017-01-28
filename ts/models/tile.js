@@ -6,8 +6,8 @@ var AITown;
             if (x === void 0) { x = 0; }
             if (y === void 0) { y = 0; }
             this.defaultScale = 0.15;
-            this.sizeCalcScaleX = 0.99;
-            this.sizeCalcScaleY = 0.89;
+            this.sizeCalcScaleX = 0.986;
+            this.sizeCalcScaleY = 0.886;
             this.mapId = null;
             this.row = 0;
             this.col = 0;

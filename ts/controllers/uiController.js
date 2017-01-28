@@ -9,8 +9,8 @@ var AITown;
         UIController.prototype.SetUpTileSelection = function () {
             this.pannelTiles = new PIXI.Sprite(PIXI.loader.resources["grey_panel"]["texture"]);
             var tilesButton = new PIXI.Sprite(PIXI.loader.resources["stop"]["texture"]);
-            tilesButton.x = this.pannelTiles.width * 0.8;
-            tilesButton.y = 0;
+            tilesButton.x = this.pannelTiles.width;
+            tilesButton.y = 1;
             this.uiContainer.addChild(this.pannelTiles, tilesButton);
             function selectionTileClicked(index) {
                 return (function () {

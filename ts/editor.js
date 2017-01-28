@@ -5,7 +5,7 @@ var AITown;
             this.CreateRenderer();
         }
         Editor.prototype.CreateRenderer = function () {
-            this.renderer = new PIXI.WebGLRenderer(800, 600);
+            this.renderer = PIXI.autoDetectRenderer(800, 600, false, true);
             document.body.appendChild(this.renderer.view);
             //To change the background color
             this.renderer.backgroundColor = 0x061639;
